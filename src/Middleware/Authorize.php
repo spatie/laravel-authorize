@@ -3,9 +3,8 @@
 namespace Spatie\Authorize\Middleware;
 
 use Closure;
-use HttpException;
-use Illuminate\Contracts\Auth\Guard;
 use Spatie\Authorize\UnauthorizedRequestHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Authorize
 {
@@ -36,7 +35,7 @@ class Authorize
      * @param string$ability
      * @param null|\Illuminate\Database\Eloquent\Model $model
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws HttpEx
+     * @throws HttpException
      */
     protected function handleUnauthorizedRequest($request, $ability, $model)
     {
@@ -48,7 +47,7 @@ class Authorize
             return redirect()->guest('auth/login');
         }
 
-        throw new HttpEx(401, 'This action is unauthorized.');
+        throw new HttpException(401, 'This action is unauthorized.');
     }
 
     /**
@@ -62,6 +61,8 @@ class Authorize
     protected function hasRequiredAbility($user, $ability, $model = null)
     {
         if (! $user) return false;
+
+        if (is_null($model)) return $user->can($ability);
 
         return $user->can($ability, $model);
     }
@@ -77,7 +78,7 @@ class Authorize
     protected function getModelFromRequest($request, $boundModelName)
     {
         if (is_null($boundModelName)) {
-            return;
+            return null;
         }
 
         return $request->route($boundModelName);

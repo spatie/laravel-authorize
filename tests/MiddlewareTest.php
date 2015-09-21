@@ -3,8 +3,8 @@
 namespace Spatie\Authorize\Test;
 
 use Illuminate\Contracts\Auth\Access\Gate;
-use Spatie\Authorize\Exceptions\UnauthorizedRequest;
 use Spatie\Authorize\Test\Models\User;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MiddlewareTest extends TestCase
 {
@@ -28,7 +28,7 @@ class MiddlewareTest extends TestCase
     {
         auth()->login(User::find($this->unauthorizedUserId));
 
-        $this->setExpectedException(UnauthorizedRequest::class);
+        $this->setExpectedException(HttpException::class);
 
         $this->call('GET', '/protected-route');
     }
@@ -36,7 +36,7 @@ class MiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_allows_authorized_users_to_View_protected_routes()
+    public function it_allows_authorized_users_to_view_protected_routes()
     {
         auth()->login(User::find($this->authorizedUserId));
 
@@ -74,7 +74,7 @@ class MiddlewareTest extends TestCase
 
         $this->assertEquals("article 1", $response->getContent());
 
-        $this->setExpectedException(UnauthorizedRequest::class);
+        $this->setExpectedException(HttpException::class);
 
         $this->call('GET', '/article/2');
     }
