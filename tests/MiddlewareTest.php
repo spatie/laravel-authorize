@@ -76,6 +76,6 @@ class MiddlewareTest extends TestCase
 
         $this->setExpectedException(UnauthorizedRequest::class);
 
-        $response = $this->call('GET', '/article/2');
+        $this->call('GET', '/article/2');
     }
 }
