@@ -9,44 +9,30 @@ use Spatie\Authorize\UnauthorizedRequestHandler;
 class Authorize
 {
     /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
-    /**
-     * @var UnauthorizedRequestHandler
-     */
-    private $unauthorizedRequestHandler;
-
-    /**
-     * Create a new filter instance.
-     *
-     * @param Guard                      $auth
-     * @param UnauthorizedRequestHandler $unauthorizedRequestHandler
-     */
-    public function __construct(Guard $auth, UnauthorizedRequestHandler $unauthorizedRequestHandler)
-    {
-        $this->auth = $auth;
-        $this->unauthorizedRequestHandler = $unauthorizedRequestHandler;
-    }
-
-    /**
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     * @param string                   $ability
-     * @param string                   $boundModelName
-     *
+     * @param \Closure $next
+     * @param string $ability
+     * @param string $boundModelName
      * @return mixed
+     * @throws HttpException
      */
     public function handle($request, Closure $next, $ability, $boundModelName = null)
     {
         $model = $this->getModelFromRequest($request, $boundModelName);
 
-        if (! $this->hasRequiredAbility($ability, $model)) {
-            return $this->unauthorizedRequestHandler->getResponse($request, $ability, $model);
+        if (! $this->hasRequiredAbility($request->user, $ability, $model)) {
+
+            if ($request->ajax()) {
+                return response('Unauthorized.', 401);
+            }
+
+            if (! $request->user()) {
+                return redirect()->guest('auth/login');
+            }
+
+            throw new HttpException(401, 'This action is unauthorized.');
         }
 
         return $next($request);
@@ -55,18 +41,16 @@ class Authorize
     /**
      * Determine if the currently logged in use has the given ability.
      *
-     * @param string                                   $ability
+     * @param $user
+     * @param string $ability
      * @param null|\Illuminate\Database\Eloquent\Model $model
-     *
      * @return bool
      */
-    protected function hasRequiredAbility($ability, $model = null)
+    protected function hasRequiredAbility($user, $ability, $model = null)
     {
-        if (! $this->auth->check()) {
-            return false;
-        }
+        if (! $user) return false;
 
-        return $this->auth->user()->can($ability, $model);
+        return $user->can($ability, $model);
     }
 
     /**
