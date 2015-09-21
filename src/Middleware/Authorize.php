@@ -3,6 +3,7 @@
 namespace Spatie\Authorize\Middleware;
 
 use Closure;
+use HttpException;
 use Illuminate\Contracts\Auth\Guard;
 use Spatie\Authorize\UnauthorizedRequestHandler;
 
@@ -24,18 +25,30 @@ class Authorize
 
         if (! $this->hasRequiredAbility($request->user, $ability, $model)) {
 
-            if ($request->ajax()) {
-                return response('Unauthorized.', 401);
-            }
-
-            if (! $request->user()) {
-                return redirect()->guest('auth/login');
-            }
-
-            throw new HttpException(401, 'This action is unauthorized.');
+            return $this->handleUnauthorizedRequest($request, $ability, $model);
         }
 
         return $next($request);
+    }
+
+    /**
+     * @param $request
+     * @param string$ability
+     * @param null|\Illuminate\Database\Eloquent\Model $model
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws HttpEx
+     */
+    protected function handleUnauthorizedRequest($request, $ability, $model)
+    {
+        if ($request->ajax()) {
+            return response('Unauthorized.', 401);
+        }
+
+        if (!$request->user()) {
+            return redirect()->guest('auth/login');
+        }
+
+        throw new HttpEx(401, 'This action is unauthorized.');
     }
 
     /**
@@ -69,4 +82,6 @@ class Authorize
 
         return $request->route($boundModelName);
     }
+
+
 }

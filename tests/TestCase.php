@@ -5,9 +5,11 @@ namespace Spatie\Authorize\Test;
 use File;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Routing\Router;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Route;
 use Spatie\Authorize\AuthorizeServiceProvider;
+use Spatie\Authorize\Middleware\Authorize;
 use Spatie\Authorize\Test\Models\Article;
 use Spatie\Authorize\Test\Models\User;
 
@@ -19,9 +21,13 @@ abstract class TestCase extends Orchestra
 
         $this->setUpDatabase($this->app);
 
+        $this->registerMiddleWare();
+
         $this->setUpRoutes($this->app);
 
         $this->setUpGate();
+
+
     }
 
     /**
@@ -65,6 +71,11 @@ abstract class TestCase extends Orchestra
         foreach (range(1, 2) as $index) {
             Article::create(['name' => "article {$index}"]);
         }
+    }
+
+    protected function registerMiddleware()
+    {
+        $this->app[Router::class]->middleware('userCan', Authorize::class);
     }
 
     /**
