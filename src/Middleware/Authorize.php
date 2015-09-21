@@ -69,6 +69,7 @@ class Authorize
             return false;
         }
 
+        //some gates may check on number of arguments given.
         if (is_null($model)) {
             return $user->can($ability);
         }
