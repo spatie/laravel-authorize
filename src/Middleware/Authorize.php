@@ -84,7 +84,7 @@ class Authorize
      *
      * @throws HttpException
      */
-    protected function handleUnauthorizedRequest($request, $ability, $model)
+    protected function handleUnauthorizedRequest($request, $ability = '', $model = null)
     {
         if ($request->ajax()) {
             return response('Unauthorized.', 401);
