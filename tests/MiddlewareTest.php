@@ -2,6 +2,7 @@
 
 namespace Spatie\Authorize\Test;
 
+use Illuminate\Contracts\Auth\Access\Gate;
 use Spatie\Authorize\Exceptions\UnauthorizedRequest;
 use Spatie\Authorize\Test\Models\User;
 
@@ -56,5 +57,25 @@ class MiddlewareTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
 
         $this->assertEquals('Unauthorized.', $response->getContent());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_use_the_models_from_a_route_that_uses_route_model_binding()
+    {
+        $this->app->make(Gate::class)->define('viewArticle', function ($user, $article) {
+            return $user->id == $article->id;
+        });
+
+        auth()->login(User::find(1));
+
+        $response = $this->call('GET', '/article/1');
+
+        $this->assertEquals("article 1", $response->getContent());
+
+        $this->setExpectedException(UnauthorizedRequest::class);
+
+        $response = $this->call('GET', '/article/2');
     }
 }

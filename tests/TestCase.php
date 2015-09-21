@@ -89,7 +89,7 @@ abstract class TestCase extends Orchestra
         }]);
 
         Route::model('article', Article::class);
-        Route::any('/article/{article}', ['middleware' => 'userCan:viewProtectedRoute,article', function ($article) {
+        Route::any('/article/{article}', ['middleware' => 'userCan:viewArticle,article', function ($article) {
             return "article {$article->id}";
         }]);
 
