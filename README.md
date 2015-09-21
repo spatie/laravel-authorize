@@ -20,37 +20,13 @@ You can install the package via composer:
 $ composer require spatie/laravel-authorize
 ```
 
-Next, you must install the service provider:
+Next, you must register the middleware:
 
 ```php
-// config/app.php
-'providers' => [
-    ...
-    Spatie\Authorize\AuthorizeServiceProvider::class,
-];
-```
+...
+``
 
-Optionally you can publish the config-file with:
-```bash
-php artisan vendor:publish --provider="Spatie\Authorize\AuthorizeServiceProvider" --tag="config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-
-    /*
-     * Here you can specify which class should handle the unauthorized request. You
-     * can use the default one or specify any class that implements
-     * the UnauthorizedRequestHandler-interface.
-     */
-    'unauthorizedRequestHandler' => Spatie\Authorize\UnauthorizedRequestHandlers\DefaultUnauthorizedRequestHandler::class,
-
-];
-```
-
-## Usage
+## Usage`
 Coming soon
 
 ## Change log

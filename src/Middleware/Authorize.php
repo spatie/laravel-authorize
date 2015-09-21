@@ -31,6 +31,49 @@ class Authorize
     }
 
     /**
+     * Get the model from the request using given boundModelName.
+     *
+     * @param $request
+     * @param $boundModelName
+     *
+     * @return null|\Illuminate\Database\Eloquent\Model
+     */
+    protected function getModelFromRequest($request, $boundModelName)
+    {
+        if (is_null($boundModelName)) {
+            return;
+        }
+
+        return $request->route($boundModelName);
+    }
+
+    /**
+     * Determine if the currently logged in use has the given ability.
+     *
+     * @param $user
+     * @param string                                   $ability
+     * @param null|\Illuminate\Database\Eloquent\Model $model
+     *
+     * @return bool
+     */
+    protected function hasRequiredAbility($user, $ability, $model = null)
+    {
+        if (! $user) {
+            return false;
+        }
+
+        /*
+         * Some gates may check on number of arguments given. If model
+         * is null, don't pass it as an argument.
+         */
+        if (is_null($model)) {
+            return $user->can($ability);
+        }
+
+        return $user->can($ability, $model);
+    }
+
+    /**
      * Handle the unauthorized request.
      *
      * @param $request
@@ -52,48 +95,5 @@ class Authorize
         }
 
         throw new HttpException(401, 'This action is unauthorized.');
-    }
-
-    /**
-     * Determine if the currently logged in use has the given ability.
-     *
-     * @param $user
-     * @param string                                   $ability
-     * @param null|\Illuminate\Database\Eloquent\Model $model
-     *
-     * @return bool
-     */
-    protected function hasRequiredAbility($user, $ability, $model = null)
-    {
-        if (! $user) {
-            return false;
-        }
-
-        /**
-         * Some gates may check on number of arguments given. If model
-         * is null, don't pass it as an argument.
-         */
-        if (is_null($model)) {
-            return $user->can($ability);
-        }
-
-        return $user->can($ability, $model);
-    }
-
-    /**
-     * Get the model from the request using given boundModelName.
-     *
-     * @param $request
-     * @param $boundModelName
-     *
-     * @return null|\Illuminate\Database\Eloquent\Model
-     */
-    protected function getModelFromRequest($request, $boundModelName)
-    {
-        if (is_null($boundModelName)) {
-            return;
-        }
-
-        return $request->route($boundModelName);
     }
 }
