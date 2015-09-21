@@ -3,7 +3,6 @@
 namespace Spatie\Authorize\Middleware;
 
 use Closure;
-use Spatie\Authorize\UnauthorizedRequestHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Authorize
@@ -12,18 +11,19 @@ class Authorize
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     * @param string $ability
-     * @param string $boundModelName
+     * @param \Closure                 $next
+     * @param string                   $ability
+     * @param string                   $boundModelName
+     *
      * @return mixed
+     *
      * @throws HttpException
      */
     public function handle($request, Closure $next, $ability, $boundModelName = null)
     {
         $model = $this->getModelFromRequest($request, $boundModelName);
 
-        if (! $this->hasRequiredAbility($request->user, $ability, $model)) {
-
+        if (! $this->hasRequiredAbility($request->user(), $ability, $model)) {
             return $this->handleUnauthorizedRequest($request, $ability, $model);
         }
 
@@ -31,10 +31,14 @@ class Authorize
     }
 
     /**
+     * Handle the unauthorized request.
+     *
      * @param $request
      * @param string$ability
      * @param null|\Illuminate\Database\Eloquent\Model $model
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @throws HttpException
      */
     protected function handleUnauthorizedRequest($request, $ability, $model)
@@ -54,15 +58,20 @@ class Authorize
      * Determine if the currently logged in use has the given ability.
      *
      * @param $user
-     * @param string $ability
+     * @param string                                   $ability
      * @param null|\Illuminate\Database\Eloquent\Model $model
+     *
      * @return bool
      */
     protected function hasRequiredAbility($user, $ability, $model = null)
     {
-        if (! $user) return false;
+        if (! $user) {
+            return false;
+        }
 
-        if (is_null($model)) return $user->can($ability);
+        if (is_null($model)) {
+            return $user->can($ability);
+        }
 
         return $user->can($ability, $model);
     }
@@ -78,11 +87,9 @@ class Authorize
     protected function getModelFromRequest($request, $boundModelName)
     {
         if (is_null($boundModelName)) {
-            return null;
+            return;
         }
 
         return $request->route($boundModelName);
     }
-
-
 }

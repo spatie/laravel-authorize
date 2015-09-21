@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Route;
-use Spatie\Authorize\AuthorizeServiceProvider;
 use Spatie\Authorize\Middleware\Authorize;
 use Spatie\Authorize\Test\Models\Article;
 use Spatie\Authorize\Test\Models\User;
@@ -26,8 +25,6 @@ abstract class TestCase extends Orchestra
         $this->setUpRoutes($this->app);
 
         $this->setUpGate();
-
-
     }
 
     /**
