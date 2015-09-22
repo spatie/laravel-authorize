@@ -57,8 +57,54 @@ protected $routeMiddleware = [
 ];
 ```
 
+Naming the middleware `userCan` is just a suggestions. You can give it any name you'd like.
+
+The `authorize`-middleware includes all functionality provided by the standard `auth`-middleware. So you could
+also opt to replace the  `App\Http\Middleware\Authenticate`-middleware by `Spatie\Authorize\Middleware\Authorize`:
+
+```php
+//app/Http/Kernel.php
+  protected $routeMiddleware = [
+        'auth' => 'Spatie\Authorize\Middleware\Authorize',
+        ...
+    ];
+```
+
 ## Usage
-Coming soon
+
+### Checking authentication
+When the middleware is used with any parameters at all, it will only allow logged in users to use the route.
+If you plan on using the middleware like this I recommend that you replace the standard `auth`-middleware with the one
+provided by this package. 
+
+```php
+//only logged in users will be able to see this
+Route::get('/protected-page', ['middleware'=> 'auth','uses' => 'ProtectedPage@index']);
+```
+
+### Checking authorization
+The middleware accepts the name of an ability you have defined as the first parameter:
+```php
+//only users with the viewProtectedPage-ability be able to see this
+Route::get('/protected-page', [
+   'middleware'=> 'userCan:viewProtectedPage',
+   'uses' => 'ProtectedPage@index',
+]);
+```
+
+### Using form model binding
+
+
+## Unauthorized request
+
+
+
+
+
+
+
+
+
 
 ## Change log
 
@@ -66,6 +112,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Testing
 
+This package contains integration tests that are powered by [orchestral/testbench](https://github.com/orchestral/testbench).
+
+You can run all tests with:
 ``` bash
 $ composer test
 ```

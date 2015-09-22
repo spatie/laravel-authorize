@@ -3,6 +3,7 @@
 namespace Spatie\Authorize\Middleware;
 
 use Closure;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Authorize
@@ -84,20 +85,20 @@ class Authorize
      * @param string|null                              $ability
      * @param null|\Illuminate\Database\Eloquent\Model $model
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response
      *
      * @throws HttpException
      */
     protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
     {
         if ($request->ajax()) {
-            return response('Unauthorized.', 401);
+            return response('Unauthorized.', Response::HTTP_UNAUTHORIZED);
         }
 
         if (!$request->user()) {
             return redirect()->guest('auth/login');
         }
 
-        throw new HttpException(401, 'This action is unauthorized.');
+        throw new HttpException(Response::HTTP_UNAUTHORIZED, 'This action is unauthorized.');
     }
 }
