@@ -20,13 +20,17 @@ You can install the package via composer:
 $ composer require spatie/laravel-authorize
 ```
 
-Next, you must register the middleware:
+Next, you must register the `\Spatie\Authorize\Middleware\Authorize::class`-routermiddleware:
 
 ```php
-...
-``
+//app/Http/Kernel.php
+protected $routeMiddleware = [
+  ...
+  'userCan' => \Spatie\Authorize\Middleware\Authorize::class,
+];
+```
 
-## Usage`
+## Usage
 Coming soon
 
 ## Change log
