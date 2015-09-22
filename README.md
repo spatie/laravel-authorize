@@ -94,10 +94,12 @@ Route::get('/protected-page', [
 
 ### Using form model binding
 
+Lorem ipsum
+
 
 ## What happens with unauthorized requests?
 
-Lorum ipsum
+Lorem ipsum
 
 ```php
 protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
@@ -116,16 +118,11 @@ protected function handleUnauthorizedRequest($request, $ability = null, $model =
 
 ### Default behaviour
 
+Lorem ipsum
+
 ### Custom behaviour
 
-
-
-
-
-
-
-
-
+Lorem ipsum
 
 ## Change log
 
