@@ -95,7 +95,28 @@ Route::get('/protected-page', [
 ### Using form model binding
 
 
-## Unauthorized request
+## What happens with unauthorized requests?
+
+Lorum ipsum
+
+```php
+protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
+{
+    if ($request->ajax()) {
+        return response('Unauthorized.', Response::HTTP_UNAUTHORIZED);
+    }
+
+    if (!$request->user()) {
+        return redirect()->guest('auth/login');
+    }
+
+    throw new HttpException(Response::HTTP_UNAUTHORIZED, 'This action is unauthorized.');
+}
+```
+
+### Default behaviour
+
+### Custom behaviour
 
 
 
