@@ -12,18 +12,18 @@ class Authorize
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
-     * @param string                   $ability
-     * @param string                   $boundModelName
+     * @param string|null              $ability
+     * @param string|null              $boundModelName
      *
      * @return mixed
      *
      * @throws HttpException
      */
-    public function handle($request, Closure $next, $ability, $boundModelName = null)
+    public function handle($request, Closure $next, $ability = null, $boundModelName = null)
     {
         $model = $this->getModelFromRequest($request, $boundModelName);
 
-        if (! $this->hasRequiredAbility($request->user(), $ability, $model)) {
+        if (!$this->hasRequiredAbility($request->user(), $ability, $model)) {
             return $this->handleUnauthorizedRequest($request, $ability, $model);
         }
 
@@ -56,10 +56,14 @@ class Authorize
      *
      * @return bool
      */
-    protected function hasRequiredAbility($user, $ability, $model = null)
+    protected function hasRequiredAbility($user, $ability = null, $model = null)
     {
-        if (! $user) {
+        if (!$user) {
             return false;
+        }
+
+        if (is_null($ability)) {
+            return true;
         }
 
         /*
@@ -77,14 +81,14 @@ class Authorize
      * Handle the unauthorized request.
      *
      * @param $request
-     * @param string$ability
+     * @param string|null                              $ability
      * @param null|\Illuminate\Database\Eloquent\Model $model
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @throws HttpException
      */
-    protected function handleUnauthorizedRequest($request, $ability = '', $model = null)
+    protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
     {
         if ($request->ajax()) {
             return response('Unauthorized.', 401);

@@ -14,9 +14,9 @@ class MiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_redirects_unauthorized_requests_from_guests_to_the_login_page()
+    public function it_redirects_unauthenticted_users()
     {
-        $this->call('GET', '/protected-route');
+        $this->call('GET', '/only-for-logged-in-users');
 
         $this->assertRedirectedTo('auth/login');
     }
@@ -24,13 +24,35 @@ class MiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_protects_routes_from_unauthorized_users()
+    public function it_allows_authenticated_users_to_view_protected_routes()
+    {
+        auth()->login(User::find(1));
+
+        $response = $this->call('GET', '/only-for-logged-in-users');
+
+        $this->assertEquals('content for logged in users', $response->getContent());
+    }
+
+    /**
+     * @test
+     */
+    public function it_redirects_unauthorized_guests()
+    {
+        $this->call('GET', '/must-have-ability-to-view-protected-route');
+
+        $this->assertRedirectedTo('auth/login');
+    }
+
+    /**
+     * @test
+     */
+    public function it_redirects_unauthorized_users()
     {
         auth()->login(User::find($this->unauthorizedUserId));
 
         $this->setExpectedException(HttpException::class);
 
-        $this->call('GET', '/protected-route');
+        $this->call('GET', '/must-have-ability-to-view-protected-route');
     }
 
     /**
@@ -40,7 +62,7 @@ class MiddlewareTest extends TestCase
     {
         auth()->login(User::find($this->authorizedUserId));
 
-        $response = $this->call('GET', '/protected-route');
+        $response = $this->call('GET', '/must-have-ability-to-view-protected-route');
 
         $this->assertEquals('content of protected route', $response->getContent());
     }
@@ -52,7 +74,7 @@ class MiddlewareTest extends TestCase
     {
         auth()->login(User::find($this->unauthorizedUserId));
 
-        $response = $this->callJson('GET', '/protected-route');
+        $response = $this->callJson('GET', '/must-have-ability-to-view-protected-route');
 
         $this->assertEquals(401, $response->getStatusCode());
 
@@ -72,7 +94,7 @@ class MiddlewareTest extends TestCase
 
         $response = $this->call('GET', '/article/1');
 
-        $this->assertEquals("article 1", $response->getContent());
+        $this->assertEquals('article 1', $response->getContent());
 
         $this->setExpectedException(HttpException::class);
 

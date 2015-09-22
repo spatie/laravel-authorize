@@ -80,7 +80,11 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpRoutes($app)
     {
-        Route::any('/protected-route', ['middleware' => 'userCan:viewProtectedRoute', function () {
+        Route::any('/only-for-logged-in-users', ['middleware' => 'userCan', function () {
+            return 'content for logged in users';
+        }]);
+
+        Route::any('/must-have-ability-to-view-protected-route', ['middleware' => 'userCan:viewProtectedRoute', function () {
             return 'content of protected route';
         }]);
 
