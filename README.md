@@ -145,7 +145,7 @@ with status `HTTP_UNAUTHORIZED` aka 401.
 ### Custom behaviour
 
 To customize the default behaviour you can easily extend the default middleware and
-override the `handleUnauthorizedRequest`-method. Don't forget to register your class at the middleware.
+override the `handleUnauthorizedRequest`-method. Don't forget to register your class at the kernel.
 
 If you would like to let all unauthorized users know that you are actually a teapot you can do so.
 
