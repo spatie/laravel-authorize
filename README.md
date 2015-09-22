@@ -99,7 +99,7 @@ Route::get('/protected-page', [
 Image you've set up an ability like this:
 
 ```php
-//in the boot method of AuthServiceProvider
+//inside the boot method of AuthServiceProvider
 
 $gate->define('update-post', function ($user, $post) {
     return $user->id === $post->user_id;
