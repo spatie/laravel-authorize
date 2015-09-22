@@ -12,7 +12,10 @@ features that were introduced in Laravel 5.1.11.
 
 Protecting a route can be done by adding middleware to it:
 ```php
-Route::get('/protected-page', ['middleware'=> 'userCan:viewProtectedPage', 'uses' => 'ProtectedPage@index');
+Route::get('/protected-page', [
+   'middleware'=> 'userCan:viewProtectedPage',
+   'uses' => 'ProtectedPage@index'
+]);
 ```
 
 Of course this middleware can also be applied to a bunch of routes:
@@ -28,7 +31,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userCan:viewAdmin'], functio
 
 Furthermore the middleware can use route model binding:
 ```php
-Route::get('/article/{article}', ['middleware'=> 'userCan:editArticle,article', 'uses' => 'ArticleController@edit');
+Route::get('/article/{article}', [
+   'middleware'=> 'userCan:editArticle,article',
+   'uses' => 'ArticleController@edit')
+]);
 ```
 
 Spatie is webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
