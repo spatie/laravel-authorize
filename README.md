@@ -14,7 +14,7 @@ Protecting a route can be done by adding middleware to it:
 ```php
 Route::get('/protected-page', [
    'middleware'=> 'userCan:viewProtectedPage',
-   'uses' => 'ProtectedPage@index',
+   'uses' => 'ProtectedPageController@index',
 ]);
 ```
 
@@ -91,7 +91,7 @@ The middleware accepts the name of an ability you have defined as the first para
 
 Route::get('/protected-page', [
    'middleware'=> 'userCan:viewProtectedPage',
-   'uses' => 'ProtectedPage@index',
+   'uses' => 'ProtectedPageController@index',
 ]);
 ```
 
