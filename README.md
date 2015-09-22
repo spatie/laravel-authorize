@@ -14,7 +14,7 @@ Protecting a route can be done by adding middleware to it:
 ```php
 Route::get('/protected-page', [
    'middleware'=> 'userCan:viewProtectedPage',
-   'uses' => 'ProtectedPage@index'
+   'uses' => 'ProtectedPage@index',
 ]);
 ```
 
@@ -23,7 +23,7 @@ Of course this middleware can also be applied to a bunch of routes:
 ```php
 Route::group(['prefix' => 'admin', 'middleware' => 'userCan:viewAdmin'], function() {
 
-   //all your controllers of your admin section
+   //all the controllers of your admin section
    ...
    
 });
@@ -33,7 +33,7 @@ Furthermore the middleware can use route model binding:
 ```php
 Route::get('/article/{article}', [
    'middleware'=> 'userCan:editArticle,article',
-   'uses' => 'ArticleController@edit')
+   'uses' => 'ArticleController@edit'),
 ]);
 ```
 
