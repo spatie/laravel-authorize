@@ -46,7 +46,7 @@ You can install the package via composer:
 $ composer require spatie/laravel-authorize
 ```
 
-Next, you must register the `\Spatie\Authorize\Middleware\Authorize::class`-routermiddleware:
+Next, the `\Spatie\Authorize\Middleware\Authorize::class`-middleware must be registered in the kernel:
 
 ```php
 //app/Http/Kernel.php
