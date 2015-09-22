@@ -31,9 +31,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userCan:viewAdmin'], functio
 
 Furthermore the middleware can use route model binding:
 ```php
-Route::get('/article/{article}', [
-   'middleware'=> 'userCan:editArticle,article',
-   'uses' => 'ArticleController@edit'),
+Route::get('/post/{post}', [
+   'middleware'=> 'userCan:editPost,post',
+   'uses' => 'PostController@edit'),
 ]);
 ```
 
@@ -64,6 +64,7 @@ also opt to replace the  `App\Http\Middleware\Authenticate`-middleware by `Spati
 
 ```php
 //app/Http/Kernel.php
+
   protected $routeMiddleware = [
         'auth' => 'Spatie\Authorize\Middleware\Authorize',
         ...
@@ -73,12 +74,13 @@ also opt to replace the  `App\Http\Middleware\Authenticate`-middleware by `Spati
 ## Usage
 
 ### Checking authentication
-When the middleware is used with any parameters at all, it will only allow logged in users to use the route.
+When the middleware is used without any parameters at all, it will only allow logged in users to use the route.
 If you plan on using the middleware like this I recommend that you replace the standard `auth`-middleware with the one
 provided by this package. 
 
 ```php
 //only logged in users will be able to see this
+
 Route::get('/protected-page', ['middleware'=> 'auth','uses' => 'ProtectedPage@index']);
 ```
 
@@ -86,6 +88,7 @@ Route::get('/protected-page', ['middleware'=> 'auth','uses' => 'ProtectedPage@in
 The middleware accepts the name of an ability you have defined as the first parameter:
 ```php
 //only users with the viewProtectedPage-ability be able to see this
+
 Route::get('/protected-page', [
    'middleware'=> 'userCan:viewProtectedPage',
    'uses' => 'ProtectedPage@index',
@@ -93,13 +96,33 @@ Route::get('/protected-page', [
 ```
 
 ### Using form model binding
+Image you've set up an ability like this:
 
-Lorem ipsum
+```php
+//in the boot method of AuthServiceProvider
 
+$gate->define('update-post', function ($user, $post) {
+    return $user->id === $post->user_id;
+});
+```
+
+The middleware accepts the name of a bound model as the second parameter.
+
+```php
+Route::get('/post/{post}', [
+   'middleware'=> 'userCan:editPost,post',
+   'uses' => 'PostController@edit'),
+]);
+```
+
+Behind the scene the middleware will pass the model bound that is bound to the round to
+the defined `update-post`-ability.
 
 ## What happens with unauthorized requests?
 
-Lorem ipsum
+### Default behaviour
+
+This is the default behaviour defined in the middleware.
 
 ```php
 protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
@@ -116,13 +139,43 @@ protected function handleUnauthorizedRequest($request, $ability = null, $model =
 }
 ```
 
-### Default behaviour
-
-Lorem ipsum
+So guests will get redirected to the default login page, logged in users will get a response
+with status `HTTP_UNAUTHORIZED` aka 401.
 
 ### Custom behaviour
 
-Lorem ipsum
+To customize the default behaviour you can easily extend the default middleware and
+override the `handleUnauthorizedRequest`-method. Don't forget to register your class at the middleware.
+
+If you would like to let all unauthorized users know that you are actually a teapot you can do so.
+
+```php
+//app/Http/Middleware/Authorize.php
+
+namespace App\Http\Middleware;
+
+use Spatie\Authorize\Middleware\Authorize as BaseAuthorize;
+use Symfony\Component\HttpFoundation\Response;
+
+class Authorize extends BaseAuthorize
+{
+    protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
+    {
+        return reponse('I am a teapot.', Response::HTTP_I_AM_A_TEAPOT);
+    }
+}
+```
+
+In the kernel:
+
+```php
+//app/Http/Kernel.php
+
+  protected $routeMiddleware = [
+        'userCan' => 'App\Http\Middleware\Authorize',
+        ...
+    ];
+```
 
 ## Change log
 
