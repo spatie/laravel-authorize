@@ -8,7 +8,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-authorize.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-authorize)
 
 This package provides a route middleware to protect routes from unauthorized access. It hooks into the authorization
-features that were introduced in Laravel 5.1.11.
+features that were [introduced in Laravel 5.1.11](http://laravel.com/docs/5.1/authorization).
 
 Protecting a route can be done by adding middleware to it:
 ```php
@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userCan:viewAdmin'], functio
 });
 ```
 
-Furthermore the middleware can use route model binding:
+Furthermore the middleware can use [route model binding](https://laracasts.com/series/laravel-5-fundamentals/episodes/18):
 ```php
 Route::get('/post/{post}', [
    'middleware'=> 'userCan:editPost,post',
