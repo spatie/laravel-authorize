@@ -52,7 +52,7 @@ class Authorize
      * Determine if the currently logged in use has the given ability.
      *
      * @param $user
-     * @param string                                   $ability
+     * @param string|null                              $ability
      * @param \Illuminate\Database\Eloquent\Model|null $model
      *
      * @return bool
