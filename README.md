@@ -81,7 +81,7 @@ provided by this package.
 ```php
 //only logged in users will be able to see this
 
-Route::get('/protected-page', ['middleware'=> 'auth','uses' => 'ProtectedPage@index']);
+Route::get('/single-protected-page', ['middleware'=> 'auth','uses' => 'SingleProtectedPage@index']);
 ```
 
 ### Checking authorization
