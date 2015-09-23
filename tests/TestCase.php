@@ -72,7 +72,7 @@ abstract class TestCase extends Orchestra
 
     protected function registerMiddleware()
     {
-        $this->app[Router::class]->middleware('userCan', Authorize::class);
+        $this->app[Router::class]->middleware('can', Authorize::class);
     }
 
     /**
@@ -80,16 +80,16 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpRoutes($app)
     {
-        Route::any('/only-for-logged-in-users', ['middleware' => 'userCan', function () {
+        Route::any('/only-for-logged-in-users', ['middleware' => 'can', function () {
             return 'content for logged in users';
         }]);
 
-        Route::any('/must-have-ability-to-view-protected-route', ['middleware' => 'userCan:viewProtectedRoute', function () {
-            return 'content of protected route';
+        Route::any('/must-have-ability-to-view-top-secret-route', ['middleware' => 'can:viewTopSecretPage', function () {
+            return 'content of top secret page';
         }]);
 
         Route::model('article', Article::class);
-        Route::any('/article/{article}', ['middleware' => 'userCan:viewArticle,article', function ($article) {
+        Route::any('/article/{article}', ['middleware' => 'can:viewArticle,article', function ($article) {
             return "article {$article->id}";
         }]);
 
@@ -100,7 +100,7 @@ abstract class TestCase extends Orchestra
 
     private function setUpGate()
     {
-        $this->app->make(Gate::class)->define('viewProtectedRoute', function ($user) {
+        $this->app->make(Gate::class)->define('viewTopSecretPage', function ($user) {
             return $user->id == 1;
         });
     }

@@ -38,7 +38,7 @@ class MiddlewareTest extends TestCase
      */
     public function it_redirects_unauthorized_guests()
     {
-        $this->call('GET', '/must-have-ability-to-view-protected-route');
+        $this->call('GET', '/must-have-ability-to-view-top-secret-route');
 
         $this->assertRedirectedTo('auth/login');
     }
@@ -52,7 +52,7 @@ class MiddlewareTest extends TestCase
 
         $this->setExpectedException(HttpException::class);
 
-        $this->call('GET', '/must-have-ability-to-view-protected-route');
+        $this->call('GET', '/must-have-ability-to-view-top-secret-route');
     }
 
     /**
@@ -62,9 +62,9 @@ class MiddlewareTest extends TestCase
     {
         auth()->login(User::find($this->authorizedUserId));
 
-        $response = $this->call('GET', '/must-have-ability-to-view-protected-route');
+        $response = $this->call('GET', '/must-have-ability-to-view-top-secret-route');
 
-        $this->assertEquals('content of protected route', $response->getContent());
+        $this->assertEquals('content of top secret page', $response->getContent());
     }
 
     /**
@@ -74,7 +74,7 @@ class MiddlewareTest extends TestCase
     {
         auth()->login(User::find($this->unauthorizedUserId));
 
-        $response = $this->callJson('GET', '/must-have-ability-to-view-protected-route');
+        $response = $this->callJson('GET', '/must-have-ability-to-view-top-secret-route');
 
         $this->assertEquals(401, $response->getStatusCode());
 

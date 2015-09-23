@@ -12,16 +12,16 @@ features that were [introduced in Laravel 5.1.11](http://laravel.com/docs/5.1/au
 
 Protecting a route can be done by adding middleware to it:
 ```php
-Route::get('/protected-page', [
-   'middleware'=> 'userCan:viewProtectedPage',
-   'uses' => 'ProtectedPageController@index',
+Route::get('/top-secret-page', [
+   'middleware'=> 'can:viewTopSecretPage',
+   'uses' => 'TopSecretController@index',
 ]);
 ```
 
 Of course this middleware can also be applied to a bunch of routes:
 
 ```php
-Route::group(['prefix' => 'admin', 'middleware' => 'userCan:viewAdmin'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => 'can:viewAdmin'], function() {
 
    //all the controllers of your admin section
    ...
@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userCan:viewAdmin'], functio
 Furthermore the middleware can use [route model binding](https://laracasts.com/series/laravel-5-fundamentals/episodes/18):
 ```php
 Route::get('/post/{post}', [
-   'middleware'=> 'userCan:editPost,post',
+   'middleware'=> 'can:editPost,post',
    'uses' => 'PostController@edit'),
 ]);
 ```
@@ -53,11 +53,11 @@ Next, the `\Spatie\Authorize\Middleware\Authorize::class`-middleware must be reg
 
 protected $routeMiddleware = [
   ...
-  'userCan' => \Spatie\Authorize\Middleware\Authorize::class,
+  'can' => \Spatie\Authorize\Middleware\Authorize::class,
 ];
 ```
 
-Naming the middleware `userCan` is just a suggestion. You can give it any name you'd like.
+Naming the middleware `can` is just a suggestion. You can give it any name you'd like.
 
 The `authorize`-middleware includes all functionality provided by the standard `auth`-middleware. So you could
 also opt to replace the  `App\Http\Middleware\Authenticate`-middleware by `Spatie\Authorize\Middleware\Authorize`:
@@ -81,17 +81,17 @@ provided by this package.
 ```php
 //only logged in users will be able to see this
 
-Route::get('/single-protected-page', ['middleware'=> 'auth','uses' => 'SingleProtectedPage@index']);
+Route::get('/top-secret-page', ['middleware'=> 'auth','uses' => 'TopSecretController@index']);
 ```
 
 ### Checking authorization
 The middleware accepts the name of an ability you have defined as the first parameter:
 ```php
-//only users with the viewProtectedPage-ability be able to see this
+//only users with the viewTopSecretPage-ability be able to see this
 
-Route::get('/protected-page', [
-   'middleware'=> 'userCan:viewProtectedPage',
-   'uses' => 'ProtectedPageController@index',
+Route::get('/top-secret-page', [
+   'middleware'=> 'can:viewTopSecretPage',
+   'uses' => 'TopSecretController@index',
 ]);
 ```
 
@@ -110,7 +110,7 @@ The middleware accepts the name of a bound model as the second parameter.
 
 ```php
 Route::get('/post/{post}', [
-   'middleware'=> 'userCan:editPost,post',
+   'middleware'=> 'can:editPost,post',
    'uses' => 'PostController@edit'),
 ]);
 ```
@@ -172,7 +172,7 @@ In the kernel:
 //app/Http/Kernel.php
 
   protected $routeMiddleware = [
-        'userCan' => 'App\Http\Middleware\Authorize',
+        'can' => 'App\Http\Middleware\Authorize',
         ...
     ];
 ```
