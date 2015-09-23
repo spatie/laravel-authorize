@@ -1,4 +1,4 @@
-## Package is development, do not use...
+## Package is development, do not use in a production environment
 
 # A middleware to check authorization
 
