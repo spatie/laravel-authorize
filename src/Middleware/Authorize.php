@@ -34,7 +34,7 @@ class Authorize
     /**
      * Get the model from the request using given boundModelName.
      *
-     * @param mixed $request
+     * @param mixed  $request
      * @param string $boundModelName
      *
      * @return \Illuminate\Database\Eloquent\Model|null
