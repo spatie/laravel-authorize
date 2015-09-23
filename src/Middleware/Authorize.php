@@ -18,7 +18,7 @@ class Authorize
      *
      * @return mixed
      *
-     * @throws HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function handle($request, Closure $next, $ability = null, $boundModelName = null)
     {
@@ -34,10 +34,10 @@ class Authorize
     /**
      * Get the model from the request using given boundModelName.
      *
-     * @param $request
-     * @param $boundModelName
+     * @param mixed $request
+     * @param string $boundModelName
      *
-     * @return null|\Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     protected function getModelFromRequest($request, $boundModelName)
     {
@@ -53,7 +53,7 @@ class Authorize
      *
      * @param $user
      * @param string                                   $ability
-     * @param null|\Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Database\Eloquent\Model|null $model
      *
      * @return bool
      */
@@ -83,7 +83,7 @@ class Authorize
      *
      * @param $request
      * @param string|null                              $ability
-     * @param null|\Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Database\Eloquent\Model|null $model
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response
      *
