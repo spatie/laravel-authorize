@@ -86,6 +86,7 @@ Route::get('/top-secret-page', ['middleware'=> 'auth','uses' => 'TopSecretContro
 
 ### Checking authorization
 The middleware accepts the name of an ability you have defined as the first parameter:
+
 ```php
 //only users with the viewTopSecretPage-ability be able to see this
 
