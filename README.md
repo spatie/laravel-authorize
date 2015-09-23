@@ -1,5 +1,3 @@
-## Package is development, do not use in a production environment
-
 # A middleware to check authorization
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-authorize.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-authorize)
