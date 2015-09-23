@@ -87,7 +87,7 @@ class Authorize
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response
      *
-     * @throws HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
     {
