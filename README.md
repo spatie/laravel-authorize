@@ -126,6 +126,9 @@ the defined `update-post`-ability.
 This is the default behaviour defined in the middleware.
 
 ```php
+use Symfony\Component\HttpKernel\Exception\HttpException;
+...
+
 protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
 {
     if ($request->ajax()) {
