@@ -26,6 +26,18 @@ abstract class TestCase extends Orchestra
 
         $this->setUpGate();
     }
+    
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     *
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return [
+            \Spatie\Authorize\AuthorizeServiceProvider::class,
+        ];
+    }
 
     /**
      * @param \Illuminate\Foundation\Application $app
@@ -93,7 +105,7 @@ abstract class TestCase extends Orchestra
             return "article {$article->id}";
         }]);
 
-        Route::any('/auth/login', function () {
+        Route::any(config('laravel-authorize.login_url'), function () {
             return 'login page';
         });
     }

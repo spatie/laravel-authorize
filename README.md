@@ -46,6 +46,16 @@ You can install the package via composer:
 $ composer require spatie/laravel-authorize
 ```
 
+Next, you must install the service provider:
+
+```php
+// config/app.php
+'providers' => [
+    ...
+    Spatie\Authorize\AuthorizeServiceProvider::class,
+];
+```
+
 Next, the `\Spatie\Authorize\Middleware\Authorize::class`-middleware must be registered in the kernel:
 
 ```php
@@ -68,6 +78,22 @@ also opt to replace the  `App\Http\Middleware\Authenticate`-middleware by `Spati
 protected $routeMiddleware = [
     'auth' => 'Spatie\Authorize\Middleware\Authorize',
     ...
+];
+```
+
+You can publish the config-file with:
+```bash
+php artisan vendor:publish --provider="Spatie\Authorize\AuthorizeServiceProvider"
+```
+
+This is the contents of the published config file:
+
+```php
+return [
+    /*
+     * The path to redirect for login.
+     */
+    'login_url' => 'auth/login'
 ];
 ```
 
@@ -136,7 +162,7 @@ protected function handleUnauthorizedRequest($request, $ability = null, $model =
     }
 
     if (!$request->user()) {
-        return redirect()->guest('auth/login');
+        return redirect()->guest('login');
     }
 
     throw new HttpException(Response::HTTP_UNAUTHORIZED, 'This action is unauthorized.');
