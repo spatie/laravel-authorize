@@ -60,7 +60,7 @@ protected $routeMiddleware = [
 Naming the middleware `can` is just a suggestion. You can give it any name you'd like.
 
 The `authorize`-middleware includes all functionality provided by the standard `auth`-middleware. So you could
-also opt to replace the  `App\Http\Middleware\Authenticate`-middleware by `Spatie\Authorize\Middleware\Authorize`:
+also opt to replace the `App\Http\Middleware\Authenticate`-middleware by `Spatie\Authorize\Middleware\Authorize`:
 
 ```php
 //app/Http/Kernel.php
