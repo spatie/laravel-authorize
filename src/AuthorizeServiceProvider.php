@@ -12,7 +12,7 @@ class AuthorizeServiceProvider extends ServiceProvider
      * @var bool
      */
     protected $defer = false;
-    
+
     /**
      * Bootstrap the application events.
      */
@@ -25,7 +25,7 @@ class AuthorizeServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     */ 
+     */
     public function register()
     {
         //

@@ -26,7 +26,7 @@ abstract class TestCase extends Orchestra
 
         $this->setUpGate();
     }
-    
+
     /**
      * @param \Illuminate\Foundation\Application $app
      *
