@@ -162,7 +162,7 @@ protected function handleUnauthorizedRequest($request, $ability = null, $model =
     }
 
     if (!$request->user()) {
-        return redirect()->guest('login');
+        return redirect()->guest(config('laravel-authorize.login_url'));
     }
 
     throw new HttpException(Response::HTTP_UNAUTHORIZED, 'This action is unauthorized.');

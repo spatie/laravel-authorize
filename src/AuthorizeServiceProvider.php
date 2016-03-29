@@ -28,6 +28,6 @@ class AuthorizeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-authorize.php', 'laravel-authorize');
     }
 }
