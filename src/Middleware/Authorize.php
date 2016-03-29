@@ -96,7 +96,7 @@ class Authorize
         }
 
         if (!$request->user()) {
-            return redirect()->guest('auth/login');
+            return redirect()->guest(config('laravel-authorize.login_url'));
         }
 
         throw new HttpException(Response::HTTP_UNAUTHORIZED, 'This action is unauthorized.');

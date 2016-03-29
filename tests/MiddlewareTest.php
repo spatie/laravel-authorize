@@ -18,7 +18,7 @@ class MiddlewareTest extends TestCase
     {
         $this->call('GET', '/only-for-logged-in-users');
 
-        $this->assertRedirectedTo('auth/login');
+        $this->assertRedirectedTo(config('laravel-authorize.login_url'));
     }
 
     /**
@@ -40,7 +40,7 @@ class MiddlewareTest extends TestCase
     {
         $this->call('GET', '/must-have-ability-to-view-top-secret-route');
 
-        $this->assertRedirectedTo('auth/login');
+        $this->assertRedirectedTo(config('laravel-authorize.login_url'));
     }
 
     /**
