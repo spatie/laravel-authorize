@@ -19,7 +19,7 @@ class AuthorizeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../resources/config/laravel-authorize.php' => config_path('laravel-authorize.php'),
+            __DIR__.'/../config/laravel-authorize.php' => config_path('laravel-authorize.php'),
         ]);
     }
 

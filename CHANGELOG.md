@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-authorize` will be documented in this file
 
+## 1.1.1 - 2016-03-29
+- Fixed a bug the prevented the config file from being published
+
 ## 1.1.0 - 2016-03-29
 - Made the login route configurable
 
