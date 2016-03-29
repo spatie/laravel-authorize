@@ -14,18 +14,21 @@ class Authorize
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
      * @param string|null              $ability
-     * @param string|null              $boundModelName
      *
      * @return mixed
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
-    public function handle($request, Closure $next, $ability = null, $boundModelName = null)
+    public function handle($request, Closure $next, $ability = null)
     {
-        $model = $this->getModelFromRequest($request, $boundModelName);
+        $boundModelNames = array_slice(func_get_args(), 3);
+        $models = [];
+        foreach ($boundModelNames as $boundModelName) {
+            $models[] = $this->getModelFromRequest($request, $boundModelName);
+        }
 
-        if (!$this->hasRequiredAbility($request->user(), $ability, $model)) {
-            return $this->handleUnauthorizedRequest($request, $ability, $model);
+        if (!$this->hasRequiredAbility($request->user(), $ability, $models)) {
+            return $this->handleUnauthorizedRequest($request, $ability, $models);
         }
 
         return $next($request);
@@ -52,12 +55,12 @@ class Authorize
      * Determine if the currently logged in use has the given ability.
      *
      * @param $user
-     * @param string|null                              $ability
-     * @param \Illuminate\Database\Eloquent\Model|null $model
+     * @param string|null                                $ability
+     * @param \Illuminate\Database\Eloquent\Model[]|null $models
      *
      * @return bool
      */
-    protected function hasRequiredAbility($user, $ability = null, $model = null)
+    protected function hasRequiredAbility($user, $ability = null, $models = null)
     {
         if (!$user) {
             return false;
@@ -71,25 +74,25 @@ class Authorize
          * Some gates may check on number of arguments given. If model
          * is null, don't pass it as an argument.
          */
-        if (is_null($model)) {
+        if (is_null($models)) {
             return $user->can($ability);
         }
 
-        return $user->can($ability, $model);
+        return $user->can($ability, $models);
     }
 
     /**
      * Handle the unauthorized request.
      *
      * @param $request
-     * @param string|null                              $ability
-     * @param \Illuminate\Database\Eloquent\Model|null $model
+     * @param string|null                                $ability
+     * @param \Illuminate\Database\Eloquent\Model[]|null $models
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
-    protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
+    protected function handleUnauthorizedRequest($request, $ability = null, $models = null)
     {
         if ($request->ajax()) {
             return response('Unauthorized.', Response::HTTP_UNAUTHORIZED);

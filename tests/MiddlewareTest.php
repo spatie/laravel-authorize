@@ -100,4 +100,25 @@ class MiddlewareTest extends TestCase
 
         $this->call('GET', '/article/2');
     }
+
+    /**
+     * @test
+     */
+    public function it_can_use_multiple_models_from_a_route_that_uses_route_model_binding()
+    {
+        $this->app->make(Gate::class)->define('viewArticles', function ($user, $article, $article2) {
+            return $user->id == $article->id && $article->id != $article2->id;
+        });
+
+        auth()->login(User::find(1));
+
+        $response = $this->call('GET', '/articles/1/2');
+
+        $this->assertEquals('article 1 and article2 2', $response->getContent());
+
+        $this->setExpectedException(HttpException::class);
+
+        $this->call('GET', '/articles/2/1');
+        dd($response->getContent());
+    }
 }
