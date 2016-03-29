@@ -93,6 +93,11 @@ abstract class TestCase extends Orchestra
             return "article {$article->id}";
         }]);
 
+        Route::model('article2', Article::class);
+        Route::any('/articles/{article}/{article2}', ['middleware' => 'can:viewArticles,article,article2', function ($article, $article2) {
+            return "article {$article->id} and article2 {$article2->id}";
+        }]);
+
         Route::any('/auth/login', function () {
             return 'login page';
         });
