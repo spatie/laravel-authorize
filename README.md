@@ -39,6 +39,10 @@ Route::get('/post/{post}', [
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
+## Do not use in Laravel 5.2.28 and up
+
+Laravel 5.2.28 or higher  have the middleware this package provides out of the box. There's no need do install this package in those versions of Laravel.
+
 ## Install
 
 You can install the package via composer:
