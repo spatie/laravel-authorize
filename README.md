@@ -41,7 +41,7 @@ Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all
 
 ## Do not use in Laravel 5.2.28 and up
 
-Laravel 5.2.28 or higher  have the middleware this package provides out of the box. There's no need do install this package in those versions of Laravel.
+Laravel 5.2.28 or higher contain the middleware this package provides [out of the box](https://github.com/laravel/framework/blob/v5.2.28/src/Illuminate/Foundation/Http/Middleware/Authorize.php). There's no need do install this package in those versions of Laravel. 
 
 ## Install
 
