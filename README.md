@@ -39,6 +39,14 @@ Route::get('/post/{post}', [
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
+## Postcardware
+
+You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment you are required to send us a postcard from your hometown, mentioning which of our package(s) you are using.
+
+Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
+
+The best postcards will get published on the open source page on our website.
+
 ## Do not use in Laravel 5.2.28 and up
 
 Laravel 5.2.28 or higher contain the middleware this package provides [out of the box](https://github.com/laravel/framework/blob/v5.2.28/src/Illuminate/Foundation/Http/Middleware/Authorize.php). There's no need do install this package in those versions of Laravel. 
