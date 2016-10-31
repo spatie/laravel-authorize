@@ -70,13 +70,13 @@ class MiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_sends_a_401_reponse_for_authorized_json_requests()
+    public function it_sends_a_403_reponse_for_authorized_json_requests()
     {
         auth()->login(User::find($this->unauthorizedUserId));
 
         $response = $this->callJson('GET', '/must-have-ability-to-view-top-secret-route');
 
-        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals(403, $response->getStatusCode());
 
         $this->assertEquals('Unauthorized.', $response->getContent());
     }
