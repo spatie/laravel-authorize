@@ -92,7 +92,7 @@ class Authorize
     protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
     {
         if ($request->ajax()) {
-            return response('Unauthorized.', Response::HTTP_FORBIDDEN);
+            return response('Unauthorized.', Response::HTTP_UNAUTHORIZED);
         }
 
         if (!$request->user()) {
