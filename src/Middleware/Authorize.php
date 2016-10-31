@@ -16,9 +16,9 @@ class Authorize
      * @param string|null              $ability
      * @param string|null              $boundModelName
      *
-     * @return mixed
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *
+     * @return mixed
      */
     public function handle($request, Closure $next, $ability = null, $boundModelName = null)
     {
@@ -85,9 +85,9 @@ class Authorize
      * @param string|null                              $ability
      * @param \Illuminate\Database\Eloquent\Model|null $model
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response
      */
     protected function handleUnauthorizedRequest($request, $ability = null, $model = null)
     {

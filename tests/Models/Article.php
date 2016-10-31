@@ -3,8 +3,8 @@
 namespace Spatie\Authorize\Test\Models;
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model implements AuthenticatableContract
 {
