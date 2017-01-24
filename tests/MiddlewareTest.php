@@ -77,8 +77,6 @@ class MiddlewareTest extends TestCase
         $response = $this->callJson('GET', '/must-have-ability-to-view-top-secret-route');
 
         $this->assertEquals(403, $response->getStatusCode());
-
-        $this->assertEquals('Unauthorized.', $response->getContent());
     }
 
     /**
