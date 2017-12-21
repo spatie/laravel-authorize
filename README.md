@@ -14,7 +14,7 @@ features that were [introduced in Laravel 5.1.11](http://laravel.com/docs/5.1/au
 Protecting a route can be done by adding middleware to it:
 ```php
 Route::get('/top-secret-page', [
-   'middleware'=> 'can:viewTopSecretPage',
+   'middleware' => 'can:viewTopSecretPage',
    'uses' => 'TopSecretController@index',
 ]);
 ```
@@ -33,8 +33,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'can:viewAdmin'], function() 
 Furthermore the middleware can use [route model binding](https://laracasts.com/series/laravel-5-fundamentals/episodes/18):
 ```php
 Route::get('/post/{post}', [
-   'middleware'=> 'can:editPost,post',
-   'uses' => 'PostController@edit'),
+   'middleware' => 'can:editPost,post',
+   'uses' => 'PostController@edit',
 ]);
 ```
 
@@ -120,7 +120,7 @@ provided by this package.
 ```php
 //only logged in users will be able to see this
 
-Route::get('/top-secret-page', ['middleware'=> 'auth','uses' => 'TopSecretController@index']);
+Route::get('/top-secret-page', ['middleware' => 'auth', 'uses' => 'TopSecretController@index']);
 ```
 
 ### Checking authorization
@@ -130,7 +130,7 @@ The middleware accepts the name of an ability you have defined as the first para
 //only users with the viewTopSecretPage-ability be able to see this
 
 Route::get('/top-secret-page', [
-   'middleware'=> 'can:viewTopSecretPage',
+   'middleware' => 'can:viewTopSecretPage',
    'uses' => 'TopSecretController@index',
 ]);
 ```
@@ -150,8 +150,8 @@ The middleware accepts the name of a bound model as the second parameter.
 
 ```php
 Route::get('/post/{post}', [
-   'middleware'=> 'can:editPost,post',
-   'uses' => 'PostController@edit'),
+   'middleware' => 'can:editPost,post',
+   'uses' => 'PostController@edit',
 ]);
 ```
 
