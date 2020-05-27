@@ -10,7 +10,8 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 
 class User extends Model implements AuthorizableContract, AuthenticatableContract
 {
-    use Authorizable, Authenticatable;
+    use Authorizable;
+    use Authenticatable;
 
     /**
      * The attributes that are mass assignable.
