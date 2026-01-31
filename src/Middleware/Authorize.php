@@ -51,7 +51,7 @@ class Authorize
     /**
      * Determine if the currently logged in use has the given ability.
      *
-     * @param $user
+     * @param                                          $user
      * @param string|null                              $ability
      * @param \Illuminate\Database\Eloquent\Model|null $model
      *
@@ -81,7 +81,7 @@ class Authorize
     /**
      * Handle the unauthorized request.
      *
-     * @param $request
+     * @param                                          $request
      * @param string|null                              $ability
      * @param \Illuminate\Database\Eloquent\Model|null $model
      *
